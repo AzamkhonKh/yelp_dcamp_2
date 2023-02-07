@@ -23,4 +23,9 @@ class Organisation extends Model
     {
         return $this->hasMany(Tag::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class, 'organistaion_id', 'id');
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\organisation\StoreCommentRequest;
 use App\Http\Requests\organisation\UpdateRequest;
+use App\Models\Comments;
 use App\Models\Organisation;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -14,6 +16,13 @@ class OrganisationController extends Controller
         $organisations = Organisation::with('tags')->get();
         
         return $organisations;
+    }
+
+    public function comments($id)
+    {
+        $organisation = Organisation::with('comments')
+            ->findOrFail($id);
+        return $organisation->comments;
     }
 
     public function store(Request $request)
@@ -46,6 +55,38 @@ class OrganisationController extends Controller
         }
         return [
             'message' => $message
+        ];
+    }
+    
+    public function store_comment(StoreCommentRequest $request, $id)
+    {
+
+        $comment = Organisation::findOrFail($id)
+            ->comments()
+            ->create($request->validated());
+
+        return $comment;
+    }
+
+    public function edit_comment(StoreCommentRequest $request, $id, $comment_id)
+    {
+        Comments::findOrFail($comment_id)
+            ->update($request->validated());
+
+        return Comments::findOrFail($comment_id);
+    }
+
+    public function destroy_comment($comment_id)
+    {
+        $deleted = Comments::findOrFail($comment_id)->delete();
+        if($deleted){
+            return [
+                'message' => 'deleted!'
+            ];
+        }
+
+        return [
+            'message' => 'not deleted!'
         ];
     }
 }

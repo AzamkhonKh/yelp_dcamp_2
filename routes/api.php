@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::apiResource('/organisation', OrganisationController::class, ['except' => ['show']]);
 Route::apiResource('/tag', TagController::class, ['except' => ['show']]);
+
+Route::get('/organisation/{id}/comment', [OrganisationController::class, 'comments']);
+Route::post('/organisation/{id}/comment', [OrganisationController::class, 'store_comment']);
+Route::delete('/organisation/{id}/comment/{comment_id}', [OrganisationController::class, 'destroy_comment']);
+Route::put('/organisation/{id}/comment/{comment_id}', [OrganisationController::class, 'edit_comment']);
