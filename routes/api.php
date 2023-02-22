@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OrganisationController;
-use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\TagController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,13 +21,10 @@ Route::get('/tag', [TagController::class, 'index']);
 Route::post('/admin/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => '/admin'], function(){
-    
     Route::apiResource('/organisation', OrganisationController::class, ['except' => ['show', 'index']]);
     Route::apiResource('/tag', TagController::class, ['except' => ['show', 'index']]);
 
     Route::post('/organisation/{id}/comment', [OrganisationController::class, 'store_comment']);
     Route::delete('/organisation/{id}/comment/{comment_id}', [OrganisationController::class, 'destroy_comment']);
     Route::put('/organisation/{id}/comment/{comment_id}', [OrganisationController::class, 'edit_comment']);
-
-
 });

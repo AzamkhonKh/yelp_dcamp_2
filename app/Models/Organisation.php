@@ -28,4 +28,8 @@ class Organisation extends Model
     {
         return $this->hasMany(Comments::class, 'organistaion_id', 'id');
     }
+
+    public static function add(array $request){
+        return  Organisation::create($request);
+    }
 }

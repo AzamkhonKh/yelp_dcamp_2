@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\organisation\StoreCommentRequest;
+use App\Http\Requests\organisation\StoreOrganisationRequest;
 use App\Http\Requests\organisation\UpdateRequest;
 use App\Models\Comments;
 use App\Models\Organisation;
@@ -25,15 +26,11 @@ class OrganisationController extends Controller
         return $organisation->comments;
     }
 
-    public function store(Request $request)
+    public function store(StoreOrganisationRequest $request)
     {
-        $organisation = Organisation::create([
-            'legal_name' => $request->legal_name,
-            'description' => $request->description,
-            'source' => $request->source,
-            'inn' => $request->inn,
-            'phone_number' => $request->phone_number,
-        ]);
+        $data = $request->validated();
+        $data['source'] .= '_api'; 
+        $organisation = Organisation::add($data);
         return $organisation;
     }
 
