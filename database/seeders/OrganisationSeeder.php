@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Comments;
+use App\Models\Tag;
 use App\Models\Organisation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,8 +17,9 @@ class OrganisationSeeder extends Seeder
      */
     public function run()
     {
-        Organisation::factory(10)->create()->each(function (Organisation $o){
+        Organisation::factory(100)->create()->each(function (Organisation $o){
             $o->comments()->saveMany(Comments::factory(10)->make());
+            $o->tags()->saveMany(Tag::factory(10)->make());
         });
     }
 }
