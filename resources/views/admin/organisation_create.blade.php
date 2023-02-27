@@ -5,6 +5,9 @@
 <div class="block block-rounded">
             <div class="block-header block-header-default">
               <h3 class="block-title"> Yangi korhona yaratish </h3>
+              @if($errors->any())
+                {{ implode('', $errors->all('<div>:message</div>')) }}
+              @endif
             </div>
             <div class="block-content">
               <form action="{{ route('web.organisation.store') }}" method="POST" enctype="multipart/form-data">
@@ -42,6 +45,18 @@
                         id="example-text-input" 
                         value="inn" 
                         name="inn" 
+                        placeholder="Text Input">
+                    </div>
+                    <div class="mb-4">
+                      <label class="form-label" for="example-text-input">
+                        phone number
+                    </label>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        id="example-text-input" 
+                        value="+998998644903" 
+                        name="phone_number" 
                         placeholder="Text Input">
                     </div>
                     <div class="mb-4">

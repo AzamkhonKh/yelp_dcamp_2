@@ -17,33 +17,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [OrganisationController::class, 'index'])->name('web.organisation.index');
-Route::get('/organisation', [OrganisationController::class, 'index'])->name('web.organisation.index');
-Route::get('/organisation/show/{id}', [OrganisationController::class, 'show'])->name('web.organisation.show');
-Route::get('/reqre/organisation/{id}', [OrganisationController::class, 'edit'])
-    ->name('web.organisation.edit')
-    ->where(['id' => '[0-9]+']);
-Route::put('/organisation/{id}', [OrganisationController::class, 'update'])
-    ->name('web.organisation.update')
-    ->where(['id' => '[0-9]+']);
-Route::delete('/organisation/{id}', [OrganisationController::class, 'destroy'])->name('web.organisation.destroy');
-Route::get('/organisation/create', [OrganisationController::class, 'create'])->name('web.organisation.create');
-Route::post('/organisation/create', [OrganisationController::class, 'store'])->name('web.organisation.store');
-Route::name('web.')->group(function () {
-    Route::resource('/tag', TagsController::class, ['except' => ['show', 'create', 'edit']]);
-
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+    Route::get('/', [OrganisationController::class, 'index'])->name('web.organisation.index');
+    Route::get('/organisation', [OrganisationController::class, 'index'])->name('web.organisation.index');
+    Route::get('/organisation/show/{id}', [OrganisationController::class, 'show'])->name('web.organisation.show');
+    Route::get('/reqre/organisation/{id}', [OrganisationController::class, 'edit'])
+        ->name('web.organisation.edit')
+        ->where(['id' => '[0-9]+']);
+    Route::put('/organisation/{id}', [OrganisationController::class, 'update'])
+        ->name('web.organisation.update')
+        ->where(['id' => '[0-9]+']);
+    Route::delete('/organisation/{id}', [OrganisationController::class, 'destroy'])->name('web.organisation.destroy');
+    Route::get('/organisation/create', [OrganisationController::class, 'create'])->name('web.organisation.create');
+    Route::post('/organisation/create', [OrganisationController::class, 'store'])->name('web.organisation.store');
+    Route::name('web.')->group(function () {
+        Route::resource('/tag', TagsController::class, ['except' => ['show', 'create', 'edit']]);
+    });
 
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

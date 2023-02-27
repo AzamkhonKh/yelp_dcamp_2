@@ -24,7 +24,7 @@ class StoreOrganisationRequest extends FormRequest
     public function rules()
     {
         return [
-            'legal_name' => ['required', 'string'],
+            'legal_name' => ['required', 'string', 'unique:organisations,legal_name'],
             'description' => ['required', 'string'],
             'source' => ['required', 'string'],
             'inn' => ['required', 'string'],
