@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Organisation;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\MyAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function () {
+Route::get('/', [OrganisationController::class, 'index'])->name('web.organisation.index');
+Route::middleware('myauth:admin')->prefix('panel')->group(function () {
     Route::get('/', [OrganisationController::class, 'index'])->name('web.organisation.index');
     Route::get('/organisation', [OrganisationController::class, 'index'])->name('web.organisation.index');
     Route::get('/organisation/show/{id}', [OrganisationController::class, 'show'])->name('web.organisation.show');
@@ -33,10 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::name('web.')->group(function () {
         Route::resource('/tag', TagsController::class, ['except' => ['show', 'create', 'edit']]);
     });
-
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';
