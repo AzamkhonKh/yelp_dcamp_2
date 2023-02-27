@@ -21,7 +21,7 @@ class Organisation extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tag::class)->pivot(TagOrganisation::class);
+        return $this->hasManyThrough(Tag::class, TagOrganisation::class, 'tag_id', 'id', 'id', 'organisation_id');
     }
 
     public function comments()
